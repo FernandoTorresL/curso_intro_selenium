@@ -4,10 +4,11 @@ from selenium import webdriver
 
 class HomePageTests(unittest.TestCase):
 
-    def setUp(self):
+    @classmethod
+    def setUpClass(cls):
         # cls.driver = webdriver.Chrome(executable_path = r'C://selenium/chromedriver.exe')
-        self.driver = webdriver.Chrome(executable_path = './../../../chromedriver_dir/87_0_4280_88/chromedriver')
-        driver = self.driver
+        cls.driver = webdriver.Chrome(executable_path = './../../../chromedriver_dir/87_0_4280_88/chromedriver')
+        driver = cls.driver
         #driver.get('http://demo.onestepcheckout.com/')
         driver.get('http://demo-store.seleniumacademy.com/')
         driver.maximize_window()
@@ -45,9 +46,9 @@ class HomePageTests(unittest.TestCase):
     def test_shopping_cart(self):
         shopping_cart_icon = self.driver.find_element_by_css_selector('div.header-minicart span.icon')
 
-
-    def tearDown(self):
-        self.driver.quit()
+    @classmethod
+    def tearDownClass(cls):
+        cls.driver.quit()
 
 
 if __name__ == "__main__":
