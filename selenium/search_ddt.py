@@ -1,6 +1,16 @@
-import unittest
+import csv, unittest
 from ddt import ddt, data, unpack
 from selenium import webdriver
+
+def get_data(file_name):
+    rows = []
+    data_file = open(file_name, 'r')
+    reader = csv.reader(data_file)
+    next(reader, None)
+
+    for row in reader:
+        rows.append(row)
+    return rows
 
 @ddt
 class SearchDDT(unittest.TestCase):
@@ -9,12 +19,12 @@ class SearchDDT(unittest.TestCase):
         # self.driver = webdriver.Chrome(executable_path = r'C://selenium/chromedriver.exe')
         self.driver = webdriver.Chrome(executable_path = './../../../chromedriver_dir/87_0_4280_88/chromedriver')
         driver = self.driver
-        driver.implicitly_wait(3)
+        #driver.implicitly_wait(3)
         # driver.maximize_window()
         #driver.get('http://demo.onestepcheckout.com/')
         driver.get('http://demo-store.seleniumacademy.com/')
 
-    @data(('dress', 6), ('music', 5))
+    @data(*get_data('testdata.csv'))
     @unpack
 
     def test_search_ddt(self, search_value, expected_count):
@@ -26,12 +36,17 @@ class SearchDDT(unittest.TestCase):
         search_field.submit()
 
         products = driver.find_elements_by_xpath('//h2[@class="product-name"]/a')
+
+        expected_count = int(expected_count)
+
+        if expected_count > 0:
+            self.assertEqual(expected_count, len(products))
+        else:
+            message = driver.find_element_by_class_name('note-msg')
+            self.assertEqual('Your search returns no results.', message)
+
+
         print(f'Found {len(products)} products')
-
-        for product in products:
-            print(product.text)
-
-        self.assertEqual(expected_count, len(products))
 
     def tearDown(self):
         self.driver.implicitly_wait(3)
