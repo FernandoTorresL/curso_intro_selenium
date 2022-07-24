@@ -1,16 +1,19 @@
 import unittest
 
 from pyunitreport import HTMLTestRunner
+from webdriver_manager.chrome import ChromeDriverManager
 
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service as ChromeService
 
 
 class HelloWorld(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        # cls.driver = webdriver.Chrome(executable_path = r'C://selenium/chromedriver.exe')
-        cls.driver = webdriver.Chrome(executable_path = '../../../../chromedriver/mac64_m1/v103/chromedriver')
+        # Con Windows: cls.driver = webdriver.Chrome(executable_path = r'C://selenium/chromedriver.exe')
+        # Con MacOs: cls.driver = webdriver.Chrome(executable_path = '../../../../chromedriver/mac64_m1/v103/chromedriver')
+        cls.driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
         driver = cls.driver
 
         # Wait for 10 seconds
