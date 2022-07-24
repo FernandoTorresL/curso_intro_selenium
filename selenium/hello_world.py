@@ -1,13 +1,16 @@
 import unittest
+
 from pyunitreport import HTMLTestRunner
+
 from selenium import webdriver
+
 
 class HelloWorld(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
         # cls.driver = webdriver.Chrome(executable_path = r'C://selenium/chromedriver.exe')
-        cls.driver = webdriver.Chrome(executable_path = './../../../chromedriver_dir/87_0_4280_88/chromedriver')
+        cls.driver = webdriver.Chrome(executable_path = '../../../../chromedriver/mac64_m1/v103/chromedriver')
         driver = cls.driver
 
         # Wait for 10 seconds
