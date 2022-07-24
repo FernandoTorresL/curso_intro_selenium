@@ -252,3 +252,9 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/virtualenv,python,windows,macos,linux,jupyternotebooks,visualstudiocode
+
+# Reports files
+*.html
+
+# Python versions files
+.python-version

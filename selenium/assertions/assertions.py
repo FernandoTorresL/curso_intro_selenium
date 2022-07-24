@@ -1,14 +1,18 @@
 import unittest
+
+from pyunitreport import HTMLTestRunner
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.common.by import By
+from webdriver_manager.chrome import ChromeDriverManager
 
 
 class AssertionsTests(unittest.TestCase):
 
     def setUp(self):
-        # self.driver = webdriver.Chrome(executable_path = r'C://selenium/chromedriver.exe')
-        self.driver = webdriver.Chrome(executable_path = './../../../../chromedriver_dir/87_0_4280_88/chromedriver')
+        # With driver download automaticaly
+        self.driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
         driver = self.driver
         driver.implicitly_wait(30)
         driver.maximize_window()
