@@ -11,9 +11,15 @@ class HelloWorld(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        # Con Windows: cls.driver = webdriver.Chrome(executable_path = r'C://selenium/chromedriver.exe')
-        # Con MacOs: cls.driver = webdriver.Chrome(executable_path = '../../../../chromedriver/mac64_m1/v103/chromedriver')
+        # Con Windows
+        # cls.driver = webdriver.Chrome(executable_path = r'C://selenium/chromedriver.exe')
+
+        # Con MacOs
+        # cls.driver = webdriver.Chrome(executable_path = '../../../../chromedriver/mac64_m1/v103/chromedriver')
+
+        # With driver download automaticaly
         cls.driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
+
         driver = cls.driver
 
         # Wait for 10 seconds
