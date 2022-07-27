@@ -1,6 +1,13 @@
-import csv, unittest
-from ddt import ddt, data, unpack
+import csv
+import unittest
+
+from ddt import data, ddt, unpack
+from webdriver_manager.chrome import ChromeDriverManager
+
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service as ChromeService
+from selenium.webdriver.common.by import By
+
 
 def get_data(file_name):
     rows = []
@@ -16,8 +23,10 @@ def get_data(file_name):
 class SearchDDT(unittest.TestCase):
 
     def setUp(self):
-        # self.driver = webdriver.Chrome(executable_path = r'C://selenium/chromedriver.exe')
-        self.driver = webdriver.Chrome(executable_path = './../../../chromedriver_dir/87_0_4280_88/chromedriver')
+        
+        # With driver download automaticaly
+        self.driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
+
         driver = self.driver
         #driver.implicitly_wait(3)
         # driver.maximize_window()
@@ -30,19 +39,19 @@ class SearchDDT(unittest.TestCase):
     def test_search_ddt(self, search_value, expected_count):
         driver = self.driver
 
-        search_field = driver.find_element_by_name('q')
+        search_field = driver.find_element('name', 'q')
         search_field.clear()
         search_field.send_keys(search_value)
         search_field.submit()
 
-        products = driver.find_elements_by_xpath('//h2[@class="product-name"]/a')
+        products = driver.find_elements('xpath', '//h2[@class="product-name"]/a')
 
         expected_count = int(expected_count)
 
         if expected_count > 0:
             self.assertEqual(expected_count, len(products))
         else:
-            message = driver.find_element_by_class_name('note-msg')
+            message = driver.find_element('class name', 'note-msg')
             self.assertEqual('Your search returns no results.', message)
 
 
@@ -50,7 +59,7 @@ class SearchDDT(unittest.TestCase):
 
     def tearDown(self):
         self.driver.implicitly_wait(3)
-        self.driver.close()
+        self.driver.quit()
 
 
 if __name__ == "__main__":
